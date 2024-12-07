@@ -4,13 +4,16 @@ namespace AoC_1
     public class TotalDistanceCalculator
     {
 
-        public static long FindTotalDistanceBetweenTwoLists(string filePath)
+        private List<int> list1 = new List<int>();
+        private List<int> list2 = new List<int>();
+
+        public TotalDistanceCalculator(string filePath)
         {
-            var list1 = new List<int>();
-            var list2 = new List<int>();
+            FillTwoLists(filePath);
+        }
 
-            FillTwoLists(list1, list2, filePath);
-
+        public long FindTotalDistanceBetweenTwoLists(string filePath)
+        {
             if (list1.Count != list2.Count)
                 throw new InvalidOperationException("mismatched number of elements.");
 
@@ -27,7 +30,7 @@ namespace AoC_1
             return totalDistance;
         }
 
-        public static void FillTwoLists(List<int> list1, List<int> list2, string filePath)
+        public void FillTwoLists(string filePath)
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException($"The input file not found: {filePath}");
@@ -52,6 +55,31 @@ namespace AoC_1
                 Console.WriteLine($"Error processing input data from the file: {ex.Message}");
                 throw;
             }
+        }
+
+        public long FindSimilarityScore()
+        {
+            long similarityScoreTotal = 0;
+            for (int i = 0; i < list1.Count -1; i++)
+            {
+                long similarityScore = 0;
+                for (int j = 0; j < list2.Count - 1; j++)
+                {
+                    // Both Lists are sorted. 
+                    // Once an element of list1 is < the list2[n], lets stop look for similarity further
+                    if(list1[i] == list2[j])
+                    {
+                        similarityScore += list1[i];
+                    }
+                    else if(list1[i] < list2[j])
+                    {
+                        break;
+                    }
+                }
+                similarityScoreTotal += similarityScore;
+            }
+
+            return similarityScoreTotal;
         }
 
     }
