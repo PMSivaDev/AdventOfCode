@@ -17,13 +17,14 @@ internal class Program
         long similarityScoreTotal = objTotDistanceCalc.FindSimilarityScore();
         Console.WriteLine("total similarity score of list1 elements against list2  = " + similarityScoreTotal);
 
-        ----------------------------------------------------------------------------------------------------------------------
+        //----------------------------------------------------------------------------------------------------------------------
 
 
         //2a. To find the total distance between the left list and the right list
+        
         RedNosedReports objRedNosedReports = new RedNosedReports(@"/media/sk/D/repo/Ubu/AdventOfCode/AoC_C#/misc/input2.txt");
         int safeRecordsCount = objRedNosedReports.AnalyseSafetyOfReportsData();
         Console.WriteLine($"After analysis, total number of safety records found =  {safeRecordsCount}" );
-        // long result2 = objRedNosedReports.FindTotalDistanceBetweenTwoLists(@"misc/input2.txt");
+        
     }
 }
