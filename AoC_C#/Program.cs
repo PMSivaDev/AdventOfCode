@@ -25,6 +25,6 @@ internal class Program
         RedNosedReports objRedNosedReports = new RedNosedReports(@"/media/sk/D/repo/Ubu/AdventOfCode/AoC_C#/misc/input2.txt");
         int safeRecordsCount = objRedNosedReports.AnalyseSafetyOfReportsData();
         Console.WriteLine($"After analysis, total number of safety records found =  {safeRecordsCount}" );
-        
+
     }
 }

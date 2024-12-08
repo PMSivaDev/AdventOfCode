@@ -51,6 +51,10 @@ namespace AoC_2
                     {
                         ++TotalSafeReportsCount;
                     }
+                    else if(IsReportSafeWithoutDamapener(report)) // If a report is NOT SAFE, try to fine one dampener and validate again
+                    {
+                        ++TotalSafeReportsCount;
+                    }
                 }
                 return TotalSafeReportsCount;
             }
@@ -100,6 +104,23 @@ namespace AoC_2
                 }
             }
             return isReportSafe;
+        }
+    
+        public bool IsReportSafeWithoutDamapener(List<int> report)
+        {            
+            // For a report thats reported NOT SAFE, check again by removing one element at a time.
+            // If report has 5 level, iterate & remove until the report becomes SAFE            
+            for(int i =0; i < report.Count ; ++i)
+            {
+                List<int> trimmedReport = new List<int>(report);
+                trimmedReport.RemoveAt(i);
+                if(IsReportSafe(trimmedReport))
+                {
+                    return true;
+                }
+            }
+            // Even after trying by removing an element, if the report does NOT validate, its really NOT SAFE
+            return false;
         }
     }
 }
