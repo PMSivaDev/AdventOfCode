@@ -1,6 +1,7 @@
 ﻿
 using AoC_1;
 using  AoC_2;
+using AoC_3;
 internal class Program
 {
     private static void Main(string[] args)
@@ -25,6 +26,13 @@ internal class Program
         RedNosedReports objRedNosedReports = new RedNosedReports(@"/media/sk/D/repo/Ubu/AdventOfCode/AoC_C#/misc/input2.txt");
         int safeRecordsCount = objRedNosedReports.AnalyseSafetyOfReportsData();
         Console.WriteLine($"After analysis, total number of safety records found =  {safeRecordsCount}" );
+
+        // -------------------------------------------------------------------------
+        //3a. Parse the input data for the pattern "mul(11,22)". Do perform 'multiply' and then sum all.
+        MulParseAndSum objMulParseAndSum = new MulParseAndSum(@"/media/sk/D/repo/Ubu/AdventOfCode/AoC_C#/misc/input3.txt");
+        Decimal result3 = objMulParseAndSum.ParseAndMultiply();
+        Console.WriteLine($"Sum of all parsed and multiplied result  =  {result3}" );
+
 
     }
 }
