@@ -18,36 +18,48 @@ class MulParseAndSum
         inputString = File.ReadAllText(filePath);
     }
 
-
-    public Decimal ParseAndMultiply()
+    // Method to parse the input and calculate the sum of valid multiplications
+    public int ParseAndMultiply()
     {
-        Decimal totalSum = 0;
-        try
+        // Regex pattern for mul() instructions and do()/don't() instructions
+        string mulPattern = @"mul\((\d+),(\d+)\)";
+        string togglePattern = @"\b(do|don't)\(\)";
+
+        // Match collections for mul() and toggle instructions
+        MatchCollection mulMatches = Regex.Matches(inputString, mulPattern);
+        MatchCollection toggleMatches = Regex.Matches(inputString, togglePattern);
+
+        int sum = 0;
+        bool isEnabled = true;
+        int toggleIndex = 0;
+
+        // Process the input string and apply do() and don't() to corresponding mul()
+        foreach (Match mulMatch in mulMatches)
         {
-            if (inputString == null)
-                throw new ArgumentNullException(nameof(inputString), "Input cannot be null.");
+            // Process toggle instructions up until the current mul instruction
+            while (toggleIndex < toggleMatches.Count && toggleMatches[toggleIndex].Index < mulMatch.Index)
+            {
+                string toggleValue = toggleMatches[toggleIndex].Value;
+                if (toggleValue == "do()")
+                {
+                    isEnabled = true;
+                }
+                else if (toggleValue == "don't()")
+                {
+                    isEnabled = false;
+                }
+                toggleIndex++;
+            }
 
-            string pattern = @"mul\((\d{1,3}),(\d{1,3})\)";
-
-            MatchCollection matches = Regex.Matches(inputString, pattern);
-
-            totalSum = matches.Cast<Match>()
-
-                                   .Select(match =>
-                                   {
-                                       int num1 = int.Parse(match.Groups[1].Value);
-                                       int num2 = int.Parse(match.Groups[2].Value);
-                                       return num1 * num2;
-                                   })
-                                   .Sum();
-
-            Console.WriteLine($" Matches Count = {matches.Count} , totalSum = {totalSum} ");
+            // If mul() is enabled by the most recent do() instruction
+            if (isEnabled)
+            {
+                int x = int.Parse(mulMatch.Groups[1].Value);
+                int y = int.Parse(mulMatch.Groups[2].Value);
+                sum += x * y;
+            }
         }
-        catch (Exception Ex)
-        {
-            Console.WriteLine($"Error processing input data from the file: {Ex.Message}");
-            throw;
-        }
-        return totalSum;
+
+        return sum; // Return the sum of enabled multiplications
     }
 }
